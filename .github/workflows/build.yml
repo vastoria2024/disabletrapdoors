@@ -22,5 +22,9 @@ jobs:
       - name: Upload jar
         uses: actions/upload-artifact@v4
         with:
-             name: DisableTrapdoors
-             path: target/DisableTrapdoors-1.0.jar
+            name: DisableTrapdoors
+            path: |
+             target/-shaded.jar
+             target/-all.jar
+             target/DisableTrapdoors-1.0.jar
+             target/*.jar
