@@ -1,4 +1,4 @@
-package com.example.disabletrapdoors;
+package com.example.disabletrapdoors
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
