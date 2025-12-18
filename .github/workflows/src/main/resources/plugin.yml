@@ -2,4 +2,5 @@ name: DisableTrapdoors v1.1
 version: 1.1.0
 main: 
 com.example.disabletrapdoors.DisableTrapdoors
+
 api-version: 1.21.7
