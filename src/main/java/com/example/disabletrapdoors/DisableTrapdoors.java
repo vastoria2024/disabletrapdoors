@@ -13,10 +13,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.NonNull;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class DisableTrapdoors extends JavaPlugin implements Listener, CommandExecutor, TabCompleter {
 
@@ -35,14 +35,22 @@ public final class DisableTrapdoors extends JavaPlugin implements Listener, Comm
         getLogger().info("DisableTrapdoors enabled. Restricting worlds: " + restrictedWorlds);
     }
 
+    @Override
+    public void onDisable() {
+        getLogger().info("DisableTrapdoors disabled.");
+    }
+
     private void loadRestrictedWorlds() {
         restrictedWorlds = getConfig().getStringList("restricted-worlds");
+        if (restrictedWorlds.isEmpty()) {
+            getLogger().warning("No worlds defined in restricted-worlds! Plugin will not block anything.");
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInteract(@NotNull PlayerInteractEvent event) {
         Action action = event.getAction();
-        if (action != Action.RIGHT_CLICK_BLOCK && action != Action.LEFT_CLICK_BLOCK) return;
+        if (action != Action.RIGHT_CLICK_BLOCK && action != Action.LEFT_CLICK_BLOCK && action != Action.PHYSICAL) return;
         if (event.getClickedBlock() == null) return;
         if (!restrictedWorlds.contains(event.getClickedBlock().getWorld().getName())) return;
         if (event.getPlayer().hasPermission("disabletrapdoors.bypass")) return;
@@ -52,7 +60,7 @@ public final class DisableTrapdoors extends JavaPlugin implements Listener, Comm
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NonNull [] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0 || !args[0].equalsIgnoreCase("reload")) {
             sender.sendMessage(Component.text("Usage: /" + label + " reload", NamedTextColor.YELLOW));
             return true;
@@ -69,10 +77,12 @@ public final class DisableTrapdoors extends JavaPlugin implements Listener, Comm
     }
 
     @Override
-    public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NonNull [] args) {
+    public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 1) {
-            return Collections.singletonList("reload");
+            return Stream.of("reload")
+                    .filter(s -> s.startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
         }
-        return Collections.emptyList();
+        return List.of();
     }
 }
