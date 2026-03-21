@@ -7,13 +7,13 @@ api-version: 1.21
 commands:
   disabletrapdoors:
     description: DisableTrapdoors plugin command
-    usage: /disabletrapdoors <reload>
+    usage: /disabletrapdoors <reload|list>
     permission: disabletrapdoors.admin
     aliases: [dt]
 
 permissions:
   disabletrapdoors.admin:
-    description: Allows use of /disabletrapdoors reload
+    description: Allows use of /disabletrapdoors reload and list
     default: op
   disabletrapdoors.bypass:
     description: Allows interacting with trapdoors in the restricted world

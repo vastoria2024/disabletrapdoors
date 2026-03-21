@@ -9,9 +9,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4.7.0
         with:
           distribution: temurin
           java-version: "21"
@@ -20,7 +20,7 @@ jobs:
         run: mvn -B clean package
 
       - name: Upload jar
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: DisableTrapdoors
-          path: target/*-plugin.jar
+          path: target/DisableTrapdoors-1.1.0.jar
