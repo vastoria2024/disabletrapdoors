@@ -3,3 +3,19 @@ version: 1.1.0
 main: com.example.disabletrapdoors.DisableTrapdoors
 author: VastoriaMC
 api-version: 1.21.7
+
+
+commands:
+  disabletrapdoors:
+    description: DisableTrapdoors plugin command
+    usage: /disabletrapdoors <reload>
+    permission: disabletrapdoors.admin
+    aliases: [dt]
+
+permissions:
+  disabletrapdoors.admin:
+    description: Allows use of /disabletrapdoors reload
+    default: op
+  disabletrapdoors.bypass:
+    description: Allows interacting with trapdoors in the restricted world
+    default: false
